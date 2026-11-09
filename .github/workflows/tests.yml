@@ -12,4 +12,7 @@ jobs:
       - run: python -m pytest -q tests
       - run: bash -n install.sh
       - name: engine version matches VERSION
-        run: grep -q "variable_version: \"$(cat VERSION)\"" klipper/cxt.cfg
+        run: |
+          v="$(cat VERSION)"
+          grep -q "variable_version: \"$v\"" klipper/cxt.cfg \
+            || { echo "klipper/cxt.cfg version does not match VERSION ($v)"; exit 1; }
